@@ -42,7 +42,7 @@ export class OpenAIAutomationChatBot {
 
 	// Schedule questions via CronJobs
 	questionsSchedule() {
-		console.log("question schedule")
+		
 		cron.schedule("*/1 * * * *", async () => {
 			
 			if (this.questionId < this.questionsArr.length) {
@@ -50,6 +50,7 @@ export class OpenAIAutomationChatBot {
 				this.questionId++;
 			} else {
 				console.log((chalk.yellow('All your questions have been asked! Please stop the bot (using Crtl + C on Windows or Control + C on Mac) and update the list of questions at src/questions.ts.')));
+			
 			}
 		});
 	}
@@ -70,19 +71,11 @@ export class OpenAIAutomationChatBot {
 					
 		const rows = await this.playwrightFluent.selector("p")
 		let list:any[] = []
-		//this.listCount = await rows.count()
-		console.log("list count is",this.listCount)
-		// let content = null
 		await rows.forEach(async (item,index) => {
-			// if(index > 2) {
-				const content = await item.innerText()
-				list.push(content)
-			// }
-			
+			const content = await item.innerText()
+			list.push(content)
 		})
 		
-		//await console.log("generate success",question,list)
-
 		if(this.questionId == 0) {
 			let result = list.slice(2)
 			console.log("88 result is",question, result.join(","))
@@ -101,6 +94,5 @@ export class OpenAIAutomationChatBot {
 		const cookies = this.parseCookies();
 		await this.initialChromiumBrowser(cookies);
 		this.questionsSchedule();
-		// await this.askingScheduledQuestions("shanghai");
 	}
 }

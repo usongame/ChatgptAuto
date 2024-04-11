@@ -10,5 +10,6 @@
 
 export const questions: string[] = [
 	"beijing",
-	"shanghai"
+	"shanghai",
+	"suzhou"
 ]
